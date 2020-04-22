@@ -1,32 +1,12 @@
-Feature: Desafio 1: No site da UNIMED, buscar por médicos no Rio de Janeiro e analisar 
-o resultado.
+#language: pt
+Funcionalidade: Usuário buscando por médicos.
 
-Scenario Outline: Entrar no site da Unimed, clicar em Guia Médico, preencher o campo de busca 
-com o valor desejado e confirmar se a busca foi realizada de forma correta. 
-dos resultados com a Especialidade e Cidade.
-Given Inicializar o browser
-And Entrar no site "https://www.unimed.coop.br/"
-And Clicar em -Guia Médico-
-When Usuário digita <busca> no campo de busca e clica em Pesquisar
-And Usuário escolhe <estado> no campo Estado e <cidade> no campo Cidade, clica em UnimedRio e em Continuar
-Then Verificar se os parâmetros da busca foram <busca> e <cidade>
-Then Fechar o browser
+Cenario: No site da Unimed, o usuário busca por médicos e analisa o resultado
+Dado Usuário pesquisa por "médicos" no site da unimed
+Quando Restringe sua busca ao estado "Rio de Janeiro" e à cidade "Rio de Janeiro"
+Entao Analisa se a busca por "médicos" se restringiu ao "Rio de Janeiro"
 
-Examples:
-|busca |estado			|cidade		 	|
-|Médico|Rio de Janeiro	|Rio de Janeiro	|
-
-Scenario Outline: Entrar no site da Unimed, clicar em Guia Médico, preencher o campo de busca 
-com o valor desejado e confirmar se, nas primeiras 3 páginas de resultado, aparece a cidade 
-de São Paulo.
-Given Inicializar o browser
-And Entrar no site "https://www.unimed.coop.br/"
-And Clicar em -Guia Médico-
-When Usuário digita <busca> no campo de busca e clica em Pesquisar
-And Usuário escolhe <estado> no campo Estado e <cidade> no campo Cidade, clica em UnimedRio e em Continuar
-Then Verificar se a cidade <cidade2> aparece em algum resultado das <paginas> primeiras páginas
-Then Fechar o browser
-
-Examples:
-|busca |estado			|cidade		 	|cidade2  |paginas |
-|Médico|Rio de Janeiro	|Rio de Janeiro	|São Paulo|3       |
+Cenario: No site da Unimed, usuário busca por médicos e analisa o resultado
+Dado Usuário pesquisa por "médicos" no site da unimed
+Quando Restringe sua busca ao estado "Rio de Janeiro" e à cidade "Rio de Janeiro"
+Entao Analisa se a busca por "médicos" gerou resultados em "São Paulo" nas "3" primeiras páginas

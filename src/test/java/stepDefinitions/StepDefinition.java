@@ -1,9 +1,9 @@
 package stepDefinitions;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
+import cucumber.api.java.pt.Dado;
+import cucumber.api.java.pt.Entao;
+import cucumber.api.java.pt.Quando;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.And;
 import cucumber.api.junit.Cucumber;
 
 import java.util.concurrent.TimeUnit;
@@ -23,37 +23,21 @@ import PageObjects.PaginaInicial;
 @RunWith(Cucumber.class)
 public class StepDefinition extends base {
 
-    @Given("^Inicializar o browser$")
-    public void inicializar_o_browser() throws Throwable {
+	@Dado("^Usuário pesquisa por \"([^\"]*)\" no site da unimed$")
+	public void usuario_pesquisa_por_medicos_no_site_da_unimed(String busca) throws Throwable {
     	driver = initializeDriver();
     	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    	
-    }
-    
-	@And("^Entrar no site \"([^\"]*)\"$")
-	public void entrar_no_site(String url) throws Throwable {
-		driver.get(url);
-	}
-
-
-    @And("^Clicar em -Guia Médico-$")
-    public void clicar_em_guia_medico() throws Throwable {
+    	driver.get("https://www.unimed.coop.br/");
     	
     	PaginaInicial ini = new PaginaInicial(driver);
 		ini.getGuiaMedico().click();
-    }
-
-    @When("^Usuário digita (.+) no campo de busca e clica em Pesquisar$")
-    public void usuario_digita_no_campo_de_busca_e_clica_em_Pesquisar(String busca) throws Throwable {
-    	PaginaGuiaM guia = new PaginaGuiaM(driver);
-    	WebDriverWait w = new WebDriverWait(driver,10);
-
+		
+		PaginaGuiaM guia = new PaginaGuiaM(driver);
 		guia.getCampoBusca().sendKeys(busca);
-		w.until(ExpectedConditions.elementToBeClickable(guia.getBotaoBusca()));
 		guia.getBotaoBusca().click();
     }
     
-    @And("^Usuário escolhe (.+) no campo Estado e (.+) no campo Cidade, clica em UnimedRio e em Continuar$")
+    @Quando("^Restringe sua busca ao estado \"([^\"]*)\" e à cidade \"([^\"]*)\"$")
     public void usuario_escolhe_estado_e_cidade(String estado, String cidade) throws Throwable {
     	PaginaGuiaM guia = new PaginaGuiaM(driver);
     	WebDriverWait w = new WebDriverWait(driver,10);
@@ -65,7 +49,7 @@ public class StepDefinition extends base {
     	guia.getContinuar().click();
     }
 
-	@Then("^Verificar se os parâmetros da busca foram (.+) e (.+)$")
+	@Entao("^Analisa se a busca por \"([^\"]*)\" se restringiu ao \"([^\"]*)\"$")
     public void verificar_se_os_parâmetros_da_busca_foram(String busca, String cidade) throws Throwable {
     	PaginaGuiaM guia = new PaginaGuiaM(driver);
     	
@@ -80,10 +64,11 @@ public class StepDefinition extends base {
     		}
     	}
     	System.out.println("A busca foi bem-sucedida e apenas " + cidade + " apareceu na pesquisa");
+    	driver.close();
     }
 	
-	@Then("^Verificar se a cidade (.+) aparece em algum resultado das (.+) primeiras páginas$")
-	public void verificar_se_a_cidade_aparece(String cidade2, Integer paginas) throws Throwable {
+	@Then("^Analisa se a busca por \"([^\"]*)\" gerou resultados em \"([^\"]*)\" nas \"([^\"]*)\" primeiras páginas$")
+	public void analisa_se_a_busca_gerou_resultados_corretors(String busca, String cidade2, Integer numero) throws Throwable {
     	PaginaGuiaM guia = new PaginaGuiaM(driver);
     	
     	for(int j = 1; j <= 3; j++)
@@ -101,17 +86,12 @@ public class StepDefinition extends base {
     	System.out.println("A busca foi bem-sucedida e " + cidade2 + " não apareceu na pesquisa na"
     			+ " página " + j);
     	
-    		if(j < paginas)
+    		if(j < numero)
     		{
     			Thread.sleep(1000);
     			guia.getProximaPagina().click();
     		}
     	}
-    }
-	@Then("^Fechar o browser$")
-    public void fechar_o_browser() throws Throwable {
     	driver.close();
     }
-	
-	
 }
