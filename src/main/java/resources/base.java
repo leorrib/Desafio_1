@@ -32,7 +32,7 @@ public WebDriver initializeDriver() throws IOException
 	
 if(browserName.contains("chrome"))//.contains could also be replaced by .equalTo
 {
-	System.setProperty("webdriver.chrome.driver", userDir+"\\drivers\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", userDir+"\\drivers\\chromedriver_80.exe");
 	HashMap<String, Object> prefs = new HashMap<String, Object>();
 	prefs.put("profile.default_content_setting_values.geolocation", 2);
 	ChromeOptions options = new ChromeOptions();

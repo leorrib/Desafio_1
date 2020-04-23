@@ -16,12 +16,13 @@ public class PaginaGuiaM {
 		this.driver = driver;
 	}
 	
-	private By CBusca = By.id("campo_pesquisa");
-	private By BBusca = By.id("btn_pesquisar");
-	private By Estado = By.xpath("//div[text()='Estado']");
-	private By Cidade = By.xpath("//div[text()='Cidade']");
-	private By Unimed = By.cssSelector("form[class*='escolher-unimed'] input");
-	private By Cont   =	By.cssSelector("[class='btn btn-success']");
+	private By CBusca   = By.id("campo_pesquisa");
+	private By BBusca   = By.id("btn_pesquisar");
+	private By Estado   = By.xpath("//div[text()='Estado']");
+	private By Cidade   = By.xpath("//div[text()='Cidade']");
+	private By Text     = By.className("form-escolher-unimed-gm");
+	private By Unimed   = By.cssSelector("form[class*='escolher-unimed'] input");
+	private By Cont     = By.cssSelector("[class='btn btn-success']");
 	private By Endereco = By.id("txt_endereco");
 	private By Pesquisa = By.cssSelector("div[class*='center-responsivo padding'] p");
 	private By ProxPag  = By.cssSelector("a[class='proximo'] i");
@@ -51,6 +52,11 @@ public class PaginaGuiaM {
 	public WebElement getUnimed()
 	{
 		return driver.findElement(Unimed);
+	}
+	
+	public WebElement getText()
+	{
+		return driver.findElement(Text);
 	}
 	
 	public WebElement getContinuar()
